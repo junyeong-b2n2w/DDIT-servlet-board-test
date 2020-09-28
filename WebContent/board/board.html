@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Insert title here</title>
+		<link href ="../css/public.css" rel="stylesheet">
+		 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+		<script src="../js/board.js"></script>
+		<style>
+			.panel-heading:hover{
+				background:lightblue;
+			}
+		</style>
+		
+		<script>
+		$(function(){
+			readServer();
+
+			//각 버튼에 대한 이벤트
+			$('.box').on('click','.action' , function(){
+				vname = $(this).attr('name');
+				vidx=  $(this).attr('idx');
+				
+				if(vname == "modify"){
+					alert(vidx + "번 글을 수정합니다");					
+				}else if(vname == "delete"){
+					alert(vidx + "번 글을 삭제합니다");
+				}else if(vname =="reply"){
+					alert(vidx + "번 글에 답글을 답니다");
+				}
+				
+			})
+			
+			
+			
+		})
+		</script>
+		
+	</head>
+	<body>
+		<div class="box">
+		
+		</div>
+		
+		
+	</body>
+</html>
