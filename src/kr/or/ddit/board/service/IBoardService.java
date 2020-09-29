@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import kr.or.ddit.board.vo.BoardVO;
+import kr.or.ddit.board.vo.ReplyVO;
 
 public interface IBoardService {
 
@@ -23,6 +24,7 @@ public interface IBoardService {
 	//  삭제
 	
 	//	댓글저장
+	public int replySave(ReplyVO vo);
 	//	댓글 수정 
 	//  삭제
 	//	조회수 증가

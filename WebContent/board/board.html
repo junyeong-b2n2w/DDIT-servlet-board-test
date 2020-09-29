@@ -12,12 +12,28 @@
 			.panel-heading:hover{
 				background:lightblue;
 			}
+			#pagelist{
+				text-align: center;
+			}
+			.pager{
+				display: inline-block;
+				margin : 0px;
+				padding : 0px;
+				
+			}
+			
 		</style>
 		
 		<script>
 		$(function(){
-			readServer();
+			//전체리스트 가져오기
+			//readServer(); 
 
+			
+			// 페이지 별 리스트 가져오기
+			readPageServer(1);
+			
+			
 			//각 버튼에 대한 이벤트
 			$('.box').on('click','.action' , function(){
 				vname = $(this).attr('name');
@@ -32,6 +48,24 @@
 				}
 				
 			})
+			//페이지 네이션과 페이저에 대한 이벤트
+			
+			$('#pagelist').on('click', '.pagination li', function(){
+				currentpage = $(this).text().trim();
+				readPageServer(currentpage);
+			})
+			
+			//next버튼
+			$('#pagelist').on('click','.next', function(){
+				currentpage = parseInt($('.pagination li:last').text()) +1;
+				readPageServer(currentpage);
+			})
+			
+			//이전버튼
+			$('#pagelist').on('click','.prev', function(){
+				currentpage = parseInt($('.pagination li:first').text()) -1;
+				readPageServer(currentpage);
+			})
 			
 			
 			
@@ -40,9 +74,13 @@
 		
 	</head>
 	<body>
+		<h1>Arcodion 게시판</h1>
 		<div class="box">
 		
 		</div>
+		<br>
+		<div id="pagelist"></div>
+		
 		
 		
 	</body>

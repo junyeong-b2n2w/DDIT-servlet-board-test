@@ -1,7 +1,9 @@
 package kr.or.ddit.board.controller;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -45,6 +47,52 @@ public class ListAll extends HttpServlet {
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//페이지별 리스트
+		
+		
+		int page = Integer.parseInt(request.getParameter("page"));
+		
+		IBoardService service = BoardServiceImpl.getService();
+		
+		//게시판 글의 총 갯수
+		int totalcount = service.boardCount();
+		
+		//한페이지당 출력할 글 갯수
+		int perlist = 3;
+		//한페이지에 출력될 페이지 갯수
+		int perpage = 2;
+		
+		int totalpage = (int)Math.ceil( (double) totalcount / perlist);
+		
+		int startpage= ((page -1) / perpage * perpage) +1;
+		
+		int endpage = startpage + perpage -1;
+		
+		if(endpage > totalpage) endpage = totalpage;
+		
+		
+		
+		int start = (page -1 )* perlist + 1;
+		int end = start + perlist -1;
+		if(end > totalcount ) end = totalcount;
+		
+		
+		Map<String, Integer> map = new HashMap<>();
+		
+		map.put("start", start);
+		map.put("end", end);
+		
+		List<BoardVO> list = service.selectByPage(map);
+		
+		request.setAttribute("listpage",list);
+		request.setAttribute("totalpage", totalpage);
+		request.setAttribute("startpage", startpage);
+		request.setAttribute("endpage", endpage);
+		
+		
+		
+		RequestDispatcher disp = request.getRequestDispatcher("board/listPage.jsp");
+		disp.forward(request, response);
+		
 	}
 
 }

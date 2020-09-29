@@ -43,5 +43,6 @@
 	 -->
 	 
 	 <sqlMap resource="kr/or/ddit/ibatis/mapper/board.xml"/>
+	 <sqlMap resource="kr/or/ddit/ibatis/mapper/reply.xml"/>
 	
 </sqlMapConfig>

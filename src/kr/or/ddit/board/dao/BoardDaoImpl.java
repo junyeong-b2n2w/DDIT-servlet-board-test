@@ -8,6 +8,7 @@ import com.ibatis.sqlmap.client.SqlMapClient;
 
 import kr.or.ddit.board.service.IBoardService;
 import kr.or.ddit.board.vo.BoardVO;
+import kr.or.ddit.board.vo.ReplyVO;
 import kr.or.ddit.ibatis.config.BuildSqlMapClient;
 
 /*
@@ -53,6 +54,12 @@ public class BoardDaoImpl implements IBoardDao{
 	@Override
 	public int boardCount() throws SQLException {
 		return (Integer) client.queryForObject("board.boardCount");
+	}
+
+	@Override
+	public int replySave(ReplyVO vo) throws SQLException {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 	

@@ -7,6 +7,7 @@ import java.util.Map;
 import kr.or.ddit.board.dao.BoardDaoImpl;
 import kr.or.ddit.board.dao.IBoardDao;
 import kr.or.ddit.board.vo.BoardVO;
+import kr.or.ddit.board.vo.ReplyVO;
 
 /*
  * dao 객체 필요 -* daoilmple클래스에서 얻어오기
@@ -58,14 +59,21 @@ public class BoardServiceImpl implements IBoardService{
 
 	@Override
 	public int boardCount() {
-		int num = 0;
+		int count = 0;
 		try {
-			num = dao.boardCount();
+			count = dao.boardCount();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		
-		return num;
+		return count;
+	}
+
+	@Override
+	public int replySave(ReplyVO vo) {
+		int re_num;
+		
+		return 0;
 	}
 
 }
