@@ -26,6 +26,9 @@
 		select count(*) from board1
 	</select>
 
+	<update id="updateHit" parameterClass="int">
+		UPDATE board1 set hit = hit+1 where seq=#data#
+	</update>
 
 
 </sqlMap>

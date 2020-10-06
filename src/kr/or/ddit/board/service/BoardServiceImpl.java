@@ -8,17 +8,12 @@ import kr.or.ddit.board.dao.BoardDaoImpl;
 import kr.or.ddit.board.dao.IBoardDao;
 import kr.or.ddit.board.vo.BoardVO;
 import kr.or.ddit.board.vo.ReplyVO;
-
 /*
- * dao 객체 필요 -* daoilmple클래스에서 얻어오기
- * 
- * controller에서 사용할 서비스 객체 생성, 리턴
- * 
+ * dao 객체가 필요 daoImpl 클래스에서 얻어오기
+ * controller에서 사용할 service객체 생성, 리턴
  */
-
 public class BoardServiceImpl implements IBoardService{
-
-	//객체변수 선언
+	//객체 변수 선언
 	
 	private IBoardDao dao;
 	private static IBoardService service;
@@ -28,52 +23,107 @@ public class BoardServiceImpl implements IBoardService{
 	}
 	
 	public static IBoardService getService(){
-		if (service == null) service= new BoardServiceImpl();
+		if(service == null) service = new BoardServiceImpl();
+		
 		return service;
 	}
-	
-	
-	
 	@Override
 	public List<BoardVO> selectAll() {
-		List<BoardVO> list = null;
-		try {
-			list = dao.selectAll();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return list;
+		// TODO Auto-generated method stub
+		return dao.selectAll();
 	}
 
 	@Override
-	public List<BoardVO> selectByPage(Map<String, Integer> map) {
+	public List<BoardVO> selectByPage(Map<String, Integer> map){
 		List<BoardVO> list = null;
+		
 		try {
-			list=  dao.selectByPage(map);
+			list = dao.selectByPage(map);
 		} catch (SQLException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 		return list;
 	}
 
 	@Override
 	public int boardCount() {
-		int count = 0;
+	int count = 0;
 		try {
 			count = dao.boardCount();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
 		return count;
 	}
 
 	@Override
 	public int replySave(ReplyVO vo) {
-		int re_num;
+		int renum = 0;
+		try {
+			renum = dao.replySave(vo);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return renum;
+	}
+
+	@Override
+	public List<ReplyVO> replyList(int bonum) {
+		List<ReplyVO> list =null;
 		
-		return 0;
+		try {
+			list = dao.replyList(bonum);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	@Override
+	public int replyDelete(int renum) {
+		int cnt = 0;
+		try {
+			cnt = dao.replyDelete(renum);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return cnt;
+	}
+
+	@Override
+	public int replyUpdate(ReplyVO vo) {
+		int cnt = 0;
+		
+		try {
+			cnt =dao.replyUpdate(vo);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	
+		
+		return cnt;
+	}
+
+	@Override
+	public int updateHit(int bonum) {
+		
+		int cnt = 0;
+		
+		try {
+			cnt = dao.updateHit(bonum);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		return cnt;
 	}
 
 }
