@@ -100,4 +100,21 @@ public class BoardDaoImpl implements IBoardDao {
 		return client.update("board.updateHit",bonum);
 	}
 
+	@Override
+	public int insertBoard(BoardVO vo) throws SQLException {
+		return (int) client.insert("board.insertBoard", vo);
+	}
+
+	@Override
+	public int updateBoard(BoardVO vo) throws SQLException {
+		return client.update("board.updateBoard", vo);
+	}
+
+	@Override
+	public int deleteBoard(int bonum) throws SQLException {
+		return client.delete("board.deleteBoard", bonum);
+	}
+
+
+
 }

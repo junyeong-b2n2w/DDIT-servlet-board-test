@@ -15,9 +15,12 @@ public interface IBoardDao {
 
 	  	//전체글 개수
 	  	public int boardCount() throws SQLException;
-		//글쓰기
+	  	//글쓰기
+	  	public int insertBoard(BoardVO vo)  throws SQLException;
 		//글 수정하기  
+	  	public int updateBoard(BoardVO vo) throws SQLException;
 		//글 삭제
+	  	public int deleteBoard(int bonum) throws SQLException;
 
 		//댓글저장
 		public int replySave(ReplyVO vo) throws SQLException;

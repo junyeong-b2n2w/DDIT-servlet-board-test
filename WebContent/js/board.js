@@ -4,14 +4,37 @@
 
 currentpage = 1;
 
+var deleteServer = function(bonum, but){
+	$.ajax({
+		url : '/board/delete.do',
+		type:'get',
+		data : {"bonum": bonum},
+		dataType:'json',
+		success : function(res){
+			//alert(res.sw);
+			//화면에서 지우기
+			$(but).parents('.panel').remove();
+			
+		},
+		error: function(req){
+			
+		}
+		
+	});
+}
+
 
 var readHitServer = function(bonum, list){
+	hit = parseInt($(list).parents('.panel').find('.hitspan').text().trim());
 	$.ajax({
 		url: '/board/ReadHitUpdate',
 		type: 'get',
 		data : {"bonum": bonum},
 		success : function(res){
-			alert(res.sw);
+			hit++;
+			//alert(res.sw);
+			$(list).parents('.panel').find('.hitspan').text(hit);
+			
 		},
 		error : function(req){
 			alert("상태 : " + req.status);
@@ -113,24 +136,24 @@ var readPageServer = function(cpage){
 			  code +='  <div class="panel panel-default">';
 			  code +='      <div class="panel-heading">';
 			  code += '     <h4 class="panel-title">';
-			  code +='        <a name = "list" class ="action" idx = "'+res.datas[i].seq+'" data-toggle="collapse" "data-parent="#accordion" href="#collapse'+res.datas[i].seq +'">'+ res.datas[i].subject + '</a>';
+			  code +='        <a name = "list" class ="action subject " idx = "'+res.datas[i].seq+'" data-toggle="collapse" "data-parent="#accordion" href="#collapse'+res.datas[i].seq +'">'+ res.datas[i].subject + '</a>';
 			  code +='	        </h4>';
 			  code +='      </div>';
 			  code +='	     <div id="collapse'+ res.datas[i].seq + '" class="panel-collapse collapse ">';
 		      code +='	      <div class="panel-body pbody">';
 			  code +='<p style = "width :80%; float:left;">';
-			  code +='작성자' +res.datas[i].writer + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-			  code +='메일' +res.datas[i].mail + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-			  code +='조회수' +res.datas[i].hit + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-			  code +='작성날자' +res.datas[i].wdate + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+			  code +='작성자<span class="wspan">' +res.datas[i].writer + '</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+			  code +='메일<span class="mspan">' +res.datas[i].mail + '</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+			  code +='조회수<span class="hitspan">' +res.datas[i].hit + '</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+			  code +='작성날자<span class="dspan">' +res.datas[i].wdate + '</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 			  code +='</p>';
 			  code +='<p style ="width:20%; float:right;">';
 			  code +='<button idx="'+ res.datas[i].seq + '" type ="button"  name ="modify" class ="action">수정</button>';
 			  code +='<button idx="'+ res.datas[i].seq + '" type ="button" name ="delete" class ="action">삭제</button>';
 			  code +='</p><hr style ="clear:both;">';
-			  code += '<p style ="width:100%;">';
+			  code += '<p style ="width:100%;"><span class="cspan">';
 			  code += res.datas[i].content;
-			  code += '</p>';
+			  code += '</span></p>';
 			  code +='<p style ="width:100%;">';
 			  code +='<textarea class ="area" cols="60"></textarea>';
 			  code += '</p>';

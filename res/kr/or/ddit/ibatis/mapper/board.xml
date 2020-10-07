@@ -31,4 +31,38 @@
 	</update>
 
 
+	<delete id="deleteBoard" parameterClass="int">
+		DELETE board1 WHERE seq=#data#
+	</delete>
+
+	<update id="updateBoard" parameterClass="boardVO">
+		UPDATE board1 set 
+			writer=#writer#,
+			mail = #mail#,
+			subject = #subject#,
+			content = #content#,
+			wip = #wip#
+		
+		 where seq=#seq#
+	</update>
+	
+	<insert id="insertBoard" parameterClass="boardVO">
+		INSERT INTO board1 VALUES(
+			board1_seq_seq.nextval,
+			#subject#,
+			#writer#,
+			#mail#,
+			#password#,
+			#content#,
+			0,
+			#wip#,
+			sysdate
+		)
+	
+	<selectKey keyProperty="seq" resultClass="int">
+		select board1_seq_seq.currval from dual
+	</selectKey>
+	
+	</insert>
+
 </sqlMap>

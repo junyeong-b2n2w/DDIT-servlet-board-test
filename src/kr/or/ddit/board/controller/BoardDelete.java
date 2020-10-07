@@ -8,29 +8,37 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.sun.org.apache.regexp.internal.REUtil;
-
 import kr.or.ddit.board.service.BoardServiceImpl;
 import kr.or.ddit.board.service.IBoardService;
 
 /**
- * Servlet implementation class ReadHitUpdate
+ * Servlet implementation class BoardDelete
  */
-@WebServlet("/ReadHitUpdate")
-public class ReadHitUpdate extends HttpServlet {
+@WebServlet("/delete.do")
+public class BoardDelete extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
  
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		//1. 요청시 데이터
 		int bonum = Integer.parseInt(request.getParameter("bonum"));
 		
+		//2. service 객체 얻기
 		IBoardService service = BoardServiceImpl.getService();
 		
-		int cnt = service.updateHit(bonum);
+		//3. 메서드 호출
+		int cnt = service.deleteBoard(bonum);
 		
+		
+		//4. requset에 저장
 		request.setAttribute("result", cnt);
 		
+		//5.
 		request.getRequestDispatcher("board/reply.jsp").forward(request, response);
+		
+		
+	
 	}
 
 }

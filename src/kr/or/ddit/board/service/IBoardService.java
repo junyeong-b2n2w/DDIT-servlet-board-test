@@ -16,8 +16,11 @@ public interface IBoardService {
   	//전체글 개수
   	public int boardCount();
 	//글쓰기
+  	public int insertBoard(BoardVO vo);
 	//글 수정하기  
+  	public int updateBoard(BoardVO vo);
 	//글 삭제
+  	public int deleteBoard(int bonum);
 
 	//댓글저장
   	public int replySave(ReplyVO vo);

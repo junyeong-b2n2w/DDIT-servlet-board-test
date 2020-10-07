@@ -126,4 +126,49 @@ public class BoardServiceImpl implements IBoardService{
 		return cnt;
 	}
 
+	@Override
+	public int insertBoard(BoardVO vo) {
+		int cnt = 0;
+		
+		try {
+			cnt = dao.insertBoard(vo);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		return cnt;
+	}
+
+	@Override
+	public int updateBoard(BoardVO vo) {
+		int cnt = 0;
+		
+		try {
+			cnt = dao.updateBoard(vo);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		return cnt;
+	}
+
+	@Override
+	public int deleteBoard(int bonum) {
+		int cnt = 0;
+		
+		try {
+			cnt = dao.deleteBoard(bonum);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		return cnt;
+	}
+
 }

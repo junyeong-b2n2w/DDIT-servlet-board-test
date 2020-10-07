@@ -27,9 +27,20 @@
 				
 				
 				if(vname == "modify"){
-					alert(vidx + "번글을 수정합니다.");
+// 					alert(vidx + "번글을 수정합니다.");
+					$('#mModal').modal('show');
+					
+					pp = $(this).parents('.panel');
+					
+					vw = pp.find('.wspan').text();
+					$('#mform #writer').vla(vw);
+					
+					vt = 
+					
+					
 				}else if(vname == "delete"){
-					alert(vidx + "번글을 삭제합니다.");
+// 					alert(vidx + "번글을 삭제합니다.");
+					deleteServer(vidx , this)
 				}else if(vname == "reply"){
 					//alert(vidx + "번글에 답글을 답니다.");
 					//name, bonum, cont,의 값을 reply객체에 담는다
@@ -197,5 +208,38 @@
 	<br>
 
 	<div id="pagelist"></div>
+	
+	
+	<!-- Modal -->
+ <div class="modal fade" id="mModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">글수정하기</h4>
+        </div>
+        <div class="modal-body">
+          <form ="mform">
+          	이름 : <input type="text" name="writer" id="writer"><br>
+          	제목 : <input type="text" name="subject" id="subject"><br>
+          	메일 : <input type="text" name="mail" id="mail"><br>
+          	비밀번호 : <input type="password" name="password" id="password"><br>
+          	내용 : <br>
+          	<textarea rows="10" cols="50"></textarea>
+          	<input type="button" value="확인" id="modiok">
+          </form>
+          
+          
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+	
 </body>
 </html>
