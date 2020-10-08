@@ -4,6 +4,47 @@
 
 currentpage = 1;
 
+
+var writeServer = function(){
+	
+	console.log($('#wform').serializeArray());
+	
+	$.ajax({
+		url:'/board/writer.do',
+		type:'post',
+		data : $('#wform').serializeArray(),
+		success : function(res){
+			readPageServer(1);
+		},
+		error : function(req){
+			
+		},
+		dataType:'json'
+	})
+	
+};
+
+var updateServer = function(){
+
+	//수정폼에 입력한 값을 가져온다
+
+	console.log($('#mform').serializeArray());
+
+	$.ajax({
+		url:'/board/update.do',
+		type: 'post',
+			data: $('#mform').serializeArray(),
+			dataType : 'json',
+			success : function(res){
+			
+			},
+			error : function(req){
+				alert("상태 : " + req.status);
+			}
+	});
+	
+}
+
 var deleteServer = function(bonum, but){
 	$.ajax({
 		url : '/board/delete.do',

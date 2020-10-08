@@ -4,17 +4,20 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-<script src="../js/jquery-3.5.1.min.js"></script>
+
 <script src="../js/board.js"></script>
 <script>
 		//객체선언, 동적으로 속성과 메소드를 추가해서 사용할수 있다. 
 		reply = {}; //reply.bonum reply.name reply.cont
+		board = {}; 
+		var pp;
 		$(function(){
 			//readServer();
 			
@@ -28,152 +31,193 @@
 				
 				if(vname == "modify"){
 // 					alert(vidx + "번글을 수정합니다.");
+					
 					$('#mModal').modal('show');
 					
 					pp = $(this).parents('.panel');
 					
+					
+					$('#mform #seq').val(vidx);
+					
 					vw = pp.find('.wspan').text();
-					$('#mform #writer').vla(vw);
+					$('#mform #writer').val(vw);
 					
-					vt = 
+					vt =  $(pp).find('.subject').text();
+					$('#mform #subject').val(vt);
+					// 메일
+					vm = $(pp).find('.mailspan').text();
+					$('#mform #mail').val(vt);
+					// 내용
+					vc = $(pp).find('.cspan').html();
+					vc = vc.replace(/<br>/g, "\n");
+					$('#mform textarea').val(vc);
 					
+					// 이름 부분은 수정되지 않도록 설정
+					$('#mform #writer').prop('readonly', true);
 					
-				}else if(vname == "delete"){
-// 					alert(vidx + "번글을 삭제합니다.");
-					deleteServer(vidx , this)
-				}else if(vname == "reply"){
-					//alert(vidx + "번글에 답글을 답니다.");
-					//name, bonum, cont,의 값을 reply객체에 담는다
-					reply.bonum = vidx;
-					//name은 랜덤  - 영문소문자 97~122 대문자 : 65~90
-					
-					n1 = String.fromCharCode(Math.random() * 26 + 97);
-					n2 = String.fromCharCode(Math.random() * 26 + 65);
-					n3 =  Math.floor(Math.random() * 100 + 1);
-					reply.name = n1 + n2 + n3;
-					recont = $(this).parent().find('.area').val();
-					reply.cont = recont; 
-					$(this).parent().find('.area').val('');
-					replySaveServer(this);
-				}else if(vname == "list"){
-					
-					
-					vclass = $(this).parents('.panel').find('.in').attr('class');
-					console.log(vclass);
-					
-					//닫혔을때 제목을 클릭하면
-					if(typeof vclass == 'undefined'){
-						//조회수 증가
-						readHitServer(vidx,this);
-						
-					}
-					
-					replyListServer(vidx, this);
-				}else if(vname == "r_modify"){
-					//alert(vidx + "번 댓글을 수정합니다");
-					//현재 display의 값을 얻어온다
-					//alert($('#modifyForm').css('display'));
-					//이미 modifyForm 열려 있는 상태 일때  다른곳에서
-					//댓글 수정을 클릭하면 전 내용이 사라지기 때문에 modifyForm을 닫는다.
-					//다른곳에 열려 있는 modi
-					if($('#modifyForm').css('display') != "none"){
-						// 열려있는 상태라면  
-						replyReset();	// 닫고 원래 내용으로 돌아간다                             
-					}
-					
-					// 댓글 수정을 위한 내용, 댓글 번호
-					
-					// 원래 댓글 내용
-					modifycont = $(this).parents('.rep').find('.cont').html();
-					// <br>태그를 \n으로 변경
-					modifycont = modifycont.replace(/<br>/g, "\n");
-					// 댓글 수정폼에 원래내용을 출력
-					$('#modifyForm #test').val(modifycont);
-					// 댓글 수정폼을 보여주기
-					$(this).parents('.rep').find('.cont').empty().append($('#modifyForm'));
-					$('#modifyForm').show();
-					
-					
-				}else if(vname == "r_delete"){
-					//alert(vidx + "번 댓글 삭제합니다.");
-					
-					replyDeleteServer(vidx); 
-					$(this).parents('.rep').remove();
-				}
-			})
-			
-			//열려있는 수정폼
-			
+				
 
+					} else if (vname == "delete") {
+						// 					alert(vidx + "번글을 삭제합니다.");
+						deleteServer(vidx, this)
+					} else if (vname == "reply") {
+						//alert(vidx + "번글에 답글을 답니다.");
+						//name, bonum, cont,의 값을 reply객체에 담는다
+						reply.bonum = vidx;
+						//name은 랜덤  - 영문소문자 97~122 대문자 : 65~90
 
-			replyReset = function(){
-				spancont = $('#modifyForm').parent(); // 원래 댓글 내용이 있던부분 span
-				
-				//modifyForm을 다시 body로 보내고 ㄱ마추기
-				$('body').append($('#modifyForm'));
-				$('#modifyForm').hide();
-				
-				//spancont 부분에 원래 내용을 다시 출력
-				$(spancont).html(modifycont.replace(/\n/g,"<br>"));
-				
+						n1 = String.fromCharCode(Math.random() * 26 + 97);
+						n2 = String.fromCharCode(Math.random() * 26 + 65);
+						n3 = Math.floor(Math.random() * 100 + 1);
+						reply.name = n1 + n2 + n3;
+						recont = $(this).parent().find('.area').val();
+						reply.cont = recont;
+						$(this).parent().find('.area').val('');
+						replySaveServer(this);
+					} else if (vname == "list") {
+
+						vclass = $(this).parents('.panel').find('.in').attr(
+								'class');
+						console.log(vclass);
+
+						//닫혔을때 제목을 클릭하면
+						if (typeof vclass == 'undefined') {
+							//조회수 증가
+							readHitServer(vidx, this);
+
+						}
+
+						replyListServer(vidx, this);
+					} else if (vname == "r_modify") {
+						//alert(vidx + "번 댓글을 수정합니다");
+						//현재 display의 값을 얻어온다
+						//alert($('#modifyForm').css('display'));
+						//이미 modifyForm 열려 있는 상태 일때  다른곳에서
+						//댓글 수정을 클릭하면 전 내용이 사라지기 때문에 modifyForm을 닫는다.
+						//다른곳에 열려 있는 modi
+						if ($('#modifyForm').css('display') != "none") {
+							// 열려있는 상태라면  
+							replyReset(); // 닫고 원래 내용으로 돌아간다                             
+						}
+
+						// 댓글 수정을 위한 내용, 댓글 번호
+
+						// 원래 댓글 내용
+						modifycont = $(this).parents('.rep').find('.cont')
+								.html();
+						// <br>태그를 \n으로 변경
+						modifycont = modifycont.replace(/<br>/g, "\n");
+						// 댓글 수정폼에 원래내용을 출력
+						$('#modifyForm #test').val(modifycont);
+						// 댓글 수정폼을 보여주기
+						$(this).parents('.rep').find('.cont').empty().append(
+								$('#modifyForm'));
+						$('#modifyForm').show();
+
+					} else if (vname == "r_delete") {
+						//alert(vidx + "번 댓글 삭제합니다.");
+
+						replyDeleteServer(vidx);
+						$(this).parents('.rep').remove();
+					}
+				})
+
+		//열려있는 수정폼
+
+		replyReset = function() {
+			spancont = $('#modifyForm').parent(); // 원래 댓글 내용이 있던부분 span
+
+			//modifyForm을 다시 body로 보내고 ㄱ마추기
+			$('body').append($('#modifyForm'));
+			$('#modifyForm').hide();
+
+			//spancont 부분에 원래 내용을 다시 출력
+			$(spancont).html(modifycont.replace(/\n/g, "<br>"));
+
+		}
+
+		$('#btnreset').on('click', function() {
+			if ($('#modifyForm').css('display') != "none") {
+				// 열려있는 상태라면  
+				replyReset(); // 닫고 원래 내용으로 돌아간다                             
 			}
+		})
+
+		$('#btnok').on('click', function() {
+
+			//수정된 내용 가져오기 
+			modifycont = $('#modifyForm #test').val();
+
+			//수정폼의 부모
+			spancont = $('#modifyForm').parent();
+			num = $(this).parents('.rep').find('#r_modify').attr('idx').trim();
+			console.log(num);
+			//modiftForm 수정폼 닫기
+			$('body').append($('#modifyForm'));
+			$('#modifyForm').hide();
+
+			//수정된 내용을 spancont에 출력한다 -\n을 <br> 로 변경
+			$(spancont).html(modifycont.replace(/\n/g, "<br>"))
+
+			//db에서 수정 -- 내용 , 날짜, renum
+			reply.cont = modifycont;
+			reply.renum = num;
+
+			replyUpdateServer();
+
+		});
+
+		//페이지 pagination 과 pager에 대한 이벤트
+		$('#pagelist').on('click', '.paging', function() {
+			currentpage = $(this).text().trim();
+			readPageServer(currentpage);
+		})
+
+		//next버튼 
+		$('#pagelist').on('click', '.next', function() {
+			currentpage = parseInt($('.paging:last').text()) + 1;
+			readPageServer(currentpage);
+		})
+		//Prev버튼
+		$('#pagelist').on('click', '.prev', function() {
+			currentpage = parseInt($('.paging:first').text()) - 1;
+			readPageServer(currentpage);
+		})
+
+		$('#modiok').on('click', function() {
 			
-			$('#btnreset').on('click', function(){
-				if($('#modifyForm').css('display') != "none"){
-					// 열려있는 상태라면  
-					replyReset();	// 닫고 원래 내용으로 돌아간다                             
-				}
-			})
+			
+			//모달창에 새롭게 수정된내용을 가져온다. -- 리스트 화면에 출력
 			
 			
-			$('#btnok').on('click',function(){
-				
-				//수정된 내용 가져오기 
-				modifycont = $('#modifyForm #test').val();
-				
-				//수정폼의 부모
-				spancont = $('#modifyForm').parent();
-				num = $(this).parents('.rep').find('#r_modify').attr('idx').trim();
-				console.log(num);
-				//modiftForm 수정폼 닫기
-				$('body').append($('#modifyForm'));
-				$('#modifyForm').hide();
-				
-				//수정된 내용을 spancont에 출력한다 -\n을 <br> 로 변경
-				$(spancont).html(modifycont.replace(/\n/g , "<br>"))
-				
+// 			board.writer = $('#mform #writer').val();
+// 			board.subject = $('#mform #subject').val();
+// 			board.mail = $('#mform #mail').val();
+// 			board.content = $('#mform #content').val().replaceAll(/\n/g,"<br>");
 			
-				//db에서 수정 -- 내용 , 날짜, renum
-				reply.cont = modifycont;
-				reply.renum = num; 
-				
-				
-				replyUpdateServer();
-				
-				
-			});
+			updateServer();
 			
+			$('#mModal').modal("hide");
+			$('#mModal .txt').val('');
+
+		})
+
+		
+		$('#write').on('click', function(){
 			
+			$('#wModal').modal('show');
 			
-			//페이지 pagination 과 pager에 대한 이벤트
-			$('#pagelist').on('click','.paging',function(){
-				currentpage = $(this).text().trim();
-				readPageServer(currentpage);
-			})
+		})	
+		
+		$('#writeok').on('click', function(){
+			writeServer();
+			$('#wModal').modal("hide");
 			
-			//next버튼 
-			$('#pagelist').on('click', '.next',function(){
-				currentpage = parseInt($('.paging:last').text()) +1;
-				readPageServer(currentpage);
-			})
-			//Prev버튼
-			$('#pagelist').on('click', '.prev',function(){
-				currentpage = parseInt($('.paging:first').text()) -1;
-				readPageServer(currentpage);
-			})
 			
 		})
-	</script>
+		
+	})
+</script>
 
 <style>
 .panel-heading:hover {
@@ -195,12 +239,16 @@
 </style>
 </head>
 <body>
+	
+
 	<!-- 댓글 수정을 위한 폼 -->
 	<div id="modifyForm" style="display: none;">
 		<textarea id="test" rows="5" cols="50"></textarea>
 		<input type="button" value="확인" id="btnok"> <input
 			type="button" value="취소" id="btnreset">
 	</div>
+	<input id="write" type="button" value="글쓰기">
+	
 	<H1>Arcodion 게시판</H1>
 	<div class="box"></div>
 
@@ -221,14 +269,48 @@
           <h4 class="modal-title">글수정하기</h4>
         </div>
         <div class="modal-body">
-          <form ="mform">
-          	이름 : <input type="text" name="writer" id="writer"><br>
-          	제목 : <input type="text" name="subject" id="subject"><br>
-          	메일 : <input type="text" name="mail" id="mail"><br>
+          <form id="mform">
+          <input type="hidden" class="txt" name="seq" id="seq">
+          	이름 : <input type="text" class="txt" name="writer" id="writer"><br>
+          	제목 : <input type="text" class="txt" name="subject" id="subject"><br>
+          	메일 : <input type="text" class="txt" name="mail"  id="mail"><br>
           	비밀번호 : <input type="password" name="password" id="password"><br>
           	내용 : <br>
-          	<textarea rows="10" cols="50"></textarea>
+          	<textarea name="content" class="txt" rows="10"  cols="50" ></textarea>
+          	
           	<input type="button" value="확인" id="modiok">
+          </form>
+          
+          
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+	
+		<!-- Modal -->
+ <div class="modal fade" id="wModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">글작성하기</h4>
+        </div>
+        <div class="modal-body">
+          <form id="wform">
+          	이름 : <input type="text" class="txt" name="writer" id="wmwriter"><br>
+          	제목 : <input type="text" class="txt" name="subject" id="wmsubject"><br>
+          	메일 : <input type="text" class="txt" name="mail"  id="wmmail"><br>
+          	비밀번호 : <input type="password" name="password" id="wmpassword"><br>
+          	내용 : <br>
+          	<textarea id="wmcontent" name="content" class="txt" rows="10"  cols="50" ></textarea>
+          	
+          	<input type="button" value="확인" id="writeok">
           </form>
           
           

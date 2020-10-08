@@ -30,7 +30,7 @@
 	"seq" : "<%=vo.getSeq() %>",
 	"writer" : "<%=vo.getWriter()%>",
 	"subject" : "<%=vo.getSubject()%>",
-	"content" : "<%=vo.getContent()%>",
+	"content" : "<%=vo.getContent().replaceAll("\r","").replaceAll("\n", "<br>")%>",
 	"mail"  : "<%=vo.getMail()%>",
 	"hit"   : "<%=vo.getHit() %>",
 	"wdate" : "<%=vo.getWdate() %>"
